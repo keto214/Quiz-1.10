@@ -1,0 +1,93 @@
+<?php
+
+$title = $this->translate('Upload Avatar');
+$this->headMeta()->appendName('keywords', 'Upload, Profile, Picture, Avatar');
+$this->headMeta()->appendName('desccription', 'Upload profile picture');
+$this->headTitle($this->escapeHtml($title));
+
+$form = $this->form;
+$form->setAttribute('settings', ['action' => 'upload']);
+$form->prepare();
+
+?>
+
+<div class="container">
+
+    <div class="row mb-3">
+
+        <div class="nav-scroller shadow-sm">
+            <nav class="nav nav-underline">
+                <a href="<?= $this->url('settings', ['action' => 'email']); ?>" class="nav-link">
+                    Change Email Address
+                </a>
+                
+                <a href="<?= $this->url('settings', ['action' => 'password']); ?>" class="nav-link">
+                    Change Password
+                </a>
+
+                <a href="<?= $this->url('settings', ['action' => 'username']); ?>" class="nav-link">
+                    Change Username
+                </a>
+
+                <a href="<?= $this->url('settings', ['action' => 'upload']); ?>" class="nav-link">
+                    Upload Profile Picture
+                </a>
+
+                <a href="<?= $this->url('settings', ['action' => 'delete']); ?>" class="nav-link">
+                    Deactivate Account
+                </a>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+    
+        <div class="col-md-8 shadow-sm">
+        
+            <h3 class="mb3 pt-2 text-md-center">
+                <?= $this->escapeHtml($this->translate('Upload Profile Picture')); ?>
+            </h3>
+
+            <?= $this->form()->openTag($form); ?>
+
+            <div class="mb-3">
+            
+                <div class="input-group">
+                
+                    <div class="custom-file">
+                        
+                        <?= $this->formFile($form->get('photo')); ?>
+                        <?= $this->formLabel($form->get('photo')); ?>
+                    </div>
+
+                    <div class="input-group-append">
+                        <?= $this->formSubmit($form->get('upload_photo')); ?>
+                    </div>
+                
+                </div>
+
+                <div class="text-danger">
+                    <?= $this->formElementErrors($form->get('photo')); ?>
+                </div>
+
+            </div>
+
+            <?= $this->form()->closeTag(); ?>
+        
+        </div>
+    
+    </div>
+
+</div>
+
+<script>
+
+$(function() {
+    $('#photo').change(function() {
+
+        $('label[for="photo"]').text($(this).val().split("\\").splice(-1, 1)[0]);
+
+    });
+});
+
+</script>

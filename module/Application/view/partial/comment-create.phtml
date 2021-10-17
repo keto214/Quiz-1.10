@@ -1,0 +1,38 @@
+<?php
+
+$form = $this->form;
+$form->setAttribute('action', $this->url('comment', ['action' => 'create']));
+$form->prepare();
+
+?>
+
+<?= $this->form()->openTag($form); ?>
+
+<h3 class="text-center mb-3">
+    <span class="text-muted">
+        <?= $this->formLabel($form->get('comment')); ?>
+    </span>
+</h3>
+
+<div class="mb-3">
+    <div class="input-group">
+        <?= $this->formTextarea($form->get('comment')); ?>
+    </div>
+    <div class="text-danger">
+        <?= $this->formElementErrors($form->get('comment')); ?>
+    </div>
+</div>
+
+<div class="mb-3">
+    <?= $this->formHidden($form->get('user_id')->setValue($this->authHelper()->getUserId())); ?>
+    <?= $this->formHidden($form->get('quiz_id')->setValue($this->quizId)); ?>
+    <?= $this->formHidden($form->get('csrf')); ?>
+
+    <div class="text-danger">
+        <?= $this->formElementErrors($form->get('csrf')); ?>
+    </div>
+
+    <?= $this->formSubmit($form->get('post_comment')); ?>
+</div>
+
+<?= $this->form()->closeTag(); ?>

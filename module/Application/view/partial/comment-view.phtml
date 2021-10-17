@@ -1,0 +1,57 @@
+<?php
+
+use Laminas\Stdlib\StringWrapper\Intl;
+
+foreach ($this->comments as $comment): ?>
+
+<div class="w-lg-60 mx-auto mb-3">
+    <div>
+        <div class="media pt-3">
+            <div class="mr-3 pt-2">
+                <img class="img-fluid rounded-circle" 
+                     src="<?= $this->basePath('images/pictures/'.$comment->getPhoto()); ?>"
+                     alt="<?= $comment->getUsername(); ?>'s photo"
+                     height="50%" width="50%">
+            </div>
+        </div>
+
+        <div class="media-body">
+            <h4 class="d-inline-block mb-1">
+                <a href="<?= $this->url('profile', [
+                    'id' => $comment->getUserId(), 'username' => strtolower($comment->getUsername())]); ?>">
+                    <?= $this->escapeHtml($comment->getUsername()); ?>    
+                </a>
+            </h4>
+
+            <time class="timeago d-block text-muted"
+                  datetime="<?= $comment->getCreated(); ?>"
+                  title="<?= $comment->getCreated(); ?>">
+
+                  <?= $this->dateFormat(
+                      new DateTime($comment->getCreated()),
+                      IntlDateFormatter::LONG,
+                      IntlDateFormatter::MEDIUM,
+                      "en-us"
+                      ); ?>
+            </time>
+        </div>
+    </div>
+
+    <p><?= $this->escapeHtml($comment->getComment()); ?></p>
+
+    <ul class="list-inline d-flex">
+        <?php if($this->identity() && $comment->getUserId() == $this->authHelper()->getUserId()): ?>
+        <li class="list-inline-item ml-auto">
+            <a href="<?= $this->url('comment', ['action' => 'edit', 'id' => $comment->getCommentId()]); ?>">
+                Edit
+            </a>
+            <a href="<?= $this->url('comment', ['action' => 'delete', 'id' => $comment->getCommentId()]); ?>">
+                Delete
+            </a>
+        </li>
+        <?php endif; ?>
+    </ul> 
+ 
+</div>
+
+<?php endforeach;
